@@ -17,4 +17,3 @@ if (!environment.production && module['hot']) {
 } else {
   bootstrap();
 }
-
