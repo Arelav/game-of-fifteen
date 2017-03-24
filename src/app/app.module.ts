@@ -10,8 +10,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { BoardComponent } from './board/board.component';
 import { TileComponent } from './tile/tile.component';
-import { BoardService } from './board.service';
-import { SettingsService } from './settings.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +25,6 @@ import { SettingsService } from './settings.service';
     MaterialModule,
     AppRoutingModule,
   ],
-  providers: [BoardService, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
