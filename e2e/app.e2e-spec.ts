@@ -1,6 +1,6 @@
 import { GameOfFifteenPage } from './app.po';
 
-describe('game-of-fifteen App', function() {
+describe('game-of-fifteen App', () => {
   let page: GameOfFifteenPage;
 
   beforeEach(() => {

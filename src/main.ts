@@ -12,7 +12,7 @@ if (environment.production) {
 
 const bootstrap = () => platformBrowserDynamic().bootstrapModule(AppModule);
 
-if (!environment.production && module['hot']) {
+if (module['hot']) {
   hmrBootstrap(module, bootstrap);
 } else {
   bootstrap();
