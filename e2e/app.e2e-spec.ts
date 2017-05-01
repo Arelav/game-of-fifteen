@@ -1,4 +1,6 @@
 import { GameOfFifteenPage } from './app.po';
+import { TestBed } from '@angular/core/testing';
+import { SettingsService } from '../src/app/settings.service';
 
 describe('game-of-fifteen App', () => {
   let page: GameOfFifteenPage;
@@ -7,8 +9,8 @@ describe('game-of-fifteen App', () => {
     page = new GameOfFifteenPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display header component', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    // expect(page.getParagraphText()).toEqual('app works!');
   });
 });

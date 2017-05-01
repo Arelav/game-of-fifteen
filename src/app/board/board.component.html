@@ -1,3 +1,7 @@
 <p>
-  board works!
+  Board size is: {{settings.boardSize}}
 </p>
+
+<button md-fab *ngFor="let tile of board.tiles" (click)="tileClick(tile)">
+  {{tile}}
+</button>

@@ -1,29 +1,25 @@
 import 'hammerjs';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MaterialModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { BoardComponent } from './board/board.component';
-import { TileComponent } from './tile/tile.component';
+import { BoardModule } from './board/board.module';
+import { HeaderModule } from 'app/header/header.module';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    BoardComponent,
-    TileComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule,
     AppRoutingModule,
+    BoardModule,
+    HeaderModule,
   ],
   bootstrap: [AppComponent]
 })
