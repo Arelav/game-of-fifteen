@@ -1,8 +1,15 @@
 :host {
-  width: 250px;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-button {
-  margin: 3px;
-}
+// .board-containder {
+  .row {
+    display: flex;
+
+    .mat-fab {
+      margin: 3px;
+    }
+  }
+// }

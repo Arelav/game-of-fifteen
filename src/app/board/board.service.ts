@@ -3,10 +3,14 @@ import { SettingsService } from '../settings.service';
 
 @Injectable()
 export class BoardService {
-  private generatedTiles: number[];
+  private initialTiles;
 
   constructor(private settingsService: SettingsService) {
-    this.generatedTiles = Array.from(new Array(settingsService.boardSize ** 2), (x, i) => i);
+    const size = settingsService.boardSize;
+
+    this.initialTiles = Array.from(new Array(size),
+      (x, i) => Array.from(new Array(size),
+        (y, j) => i * size + j));
   }
 
   mixBoard(tiles) {
@@ -15,8 +19,9 @@ export class BoardService {
   }
 
   get tiles() {
-    // TODO: refactor to stream
-    return this.mixBoard(this.generatedTiles);
+    // TODO: refactor to a stream
+    return this.mixBoard(this.initialTiles);
   }
+
 
 }
