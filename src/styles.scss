@@ -1,6 +1,12 @@
 // You can add global styles to this file, and also import other style files
 @import '~normalize.css';
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-
 // Import custom Angular Material theme
 @import 'app/themes/candy-carousel/candy-carousel-theme.scss';
+
+html,
+body {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}

@@ -4,12 +4,9 @@
   align-items: center;
 }
 
-// .board-containder {
-  .row {
-    display: flex;
-
-    .mat-fab {
-      margin: 3px;
-    }
+.row {
+  display: flex;
+  .mat-fab {
+    margin: 3px;
   }
-// }
+}

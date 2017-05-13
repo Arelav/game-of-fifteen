@@ -16,7 +16,7 @@ export class BoardComponent implements OnInit {
   }
 
   tileClick(tile) {
-    console.log(tile, this.board.tiles.indexOf(tile));
+    this.board.move(tile);
   }
 
 }
