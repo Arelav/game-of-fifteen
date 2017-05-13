@@ -38,27 +38,92 @@ export class BoardService {
     return result;
   }
 
-  checkDirection(tileLocation: Location): Direction {
-    if (tileLocation.col === this.emptyLocation.col) {
-      if (tileLocation.row > this.emptyLocation.row) {
+  checkDirection(current: Location): Direction {
+    if (current.col === this.emptyLocation.col) {
+      if (current.row > this.emptyLocation.row) {
         return Direction.up;
       }
-      if (tileLocation.row < this.emptyLocation.row) {
+      if (current.row < this.emptyLocation.row) {
         return Direction.down;
       }
     }
-    if (tileLocation.row === this.emptyLocation.row) {
-      if (tileLocation.col > this.emptyLocation.col) {
+    if (current.row === this.emptyLocation.row) {
+      if (current.col > this.emptyLocation.col) {
         return Direction.left;
       }
-      if (tileLocation.col < this.emptyLocation.col) {
+      if (current.col < this.emptyLocation.col) {
         return Direction.right;
       }
     }
   }
 
   move(tile) {
-    const direction = this.checkDirection(this.currentPosition(tile));
-    console.log(Direction[direction]);
+    const current = this.currentPosition(tile);
+    const direction = this.checkDirection(current);
+    switch (direction) {
+      case Direction.up: {
+        this.moveUp(current);
+        break;
+      }
+      case Direction.down: {
+        this.moveDown(current);
+        break;
+      }
+      case Direction.left: {
+        this.moveLeft(current);
+        break;
+      }
+      case Direction.right: {
+        this.moveRight(current);
+        break;
+      }
+    }
+  }
+
+  moveUp(current: Location) {
+    const {col} = current;
+    const distance = this.distance(current.row, this.emptyLocation.row);
+    for (let i = 0; i < distance; i++) {
+      this.change({row: this.emptyLocation.row + i, col}, {row: this.emptyLocation.row + i + 1, col});
+    }
+    this.emptyLocation = current;
+  }
+
+  moveDown(current: Location) {
+    const {col} = current;
+    const distance = this.distance(current.row, this.emptyLocation.row);
+    for (let i = 0; i < distance; i++) {
+      this.change({row: this.emptyLocation.row - i, col}, {row: this.emptyLocation.row - i - 1, col});
+    }
+    this.emptyLocation = current;
+  }
+
+  moveLeft(current: Location) {
+    // TODO: try use recursion for this.
+    const {row} = current;
+    const distance = this.distance(current.col, this.emptyLocation.col);
+    for (let i = 0; i < distance; i++) {
+      this.change({row, col: this.emptyLocation.col + i}, {row, col: this.emptyLocation.col + i + 1});
+    }
+    this.emptyLocation = current;
+  }
+
+  moveRight(current: Location) {
+    const {row} = current;
+    const distance = this.distance(current.col, this.emptyLocation.col);
+    for (let i = 0; i < distance; i++) {
+      this.change({row, col: this.emptyLocation.col - i}, {row, col: this.emptyLocation.col - i - 1});
+    }
+    this.emptyLocation = current;
+  }
+
+  distance(from: number, to: number) {
+    return Math.abs(from - to);
+  }
+
+  change(next: Location, current: Location) {
+    const temp = this.tiles[next.row][next.col];
+    this.tiles[next.row][next.col] = this.tiles[current.row][current.col];
+    this.tiles[current. row][current.col] = temp;
   }
 }

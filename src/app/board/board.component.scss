@@ -4,6 +4,10 @@
   align-items: center;
 }
 
+[hidden] {
+  visibility: hidden;
+}
+
 .row {
   display: flex;
   .mat-fab {
