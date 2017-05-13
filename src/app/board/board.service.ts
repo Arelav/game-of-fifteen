@@ -81,44 +81,39 @@ export class BoardService {
   }
 
   moveUp(current: Location) {
-    const {col} = current;
-    const distance = this.distance(current.row, this.emptyLocation.row);
-    for (let i = 0; i < distance; i++) {
-      this.change({row: this.emptyLocation.row + i, col}, {row: this.emptyLocation.row + i + 1, col});
-    }
-    this.emptyLocation = current;
+    this.makeMovement(current, (delta, row, col) =>
+      this.change({row: row + delta, col}, {row: row + delta + 1, col}));
   }
 
   moveDown(current: Location) {
-    const {col} = current;
-    const distance = this.distance(current.row, this.emptyLocation.row);
-    for (let i = 0; i < distance; i++) {
-      this.change({row: this.emptyLocation.row - i, col}, {row: this.emptyLocation.row - i - 1, col});
-    }
-    this.emptyLocation = current;
+    this.makeMovement(current, (delta, row, col) =>
+      this.change({row: row - delta, col}, {row: row - delta - 1, col}));
   }
 
   moveLeft(current: Location) {
-    // TODO: try use recursion for this.
-    const {row} = current;
-    const distance = this.distance(current.col, this.emptyLocation.col);
-    for (let i = 0; i < distance; i++) {
-      this.change({row, col: this.emptyLocation.col + i}, {row, col: this.emptyLocation.col + i + 1});
-    }
-    this.emptyLocation = current;
+    this.makeMovement(current, (delta, row, col) =>
+      this.change({row, col: col + delta}, {row, col: col + delta + 1}));
   }
 
   moveRight(current: Location) {
-    const {row} = current;
-    const distance = this.distance(current.col, this.emptyLocation.col);
-    for (let i = 0; i < distance; i++) {
-      this.change({row, col: this.emptyLocation.col - i}, {row, col: this.emptyLocation.col - i - 1});
-    }
-    this.emptyLocation = current;
+    this.makeMovement(current, (delta, row, col) =>
+      this.change({row, col: col - delta}, {row, col: col - delta - 1}));
   }
 
   distance(from: number, to: number) {
     return Math.abs(from - to);
+  }
+
+  makeMovement(current: Location, callback) {
+    const {row} = this.emptyLocation;
+    const {col} = this.emptyLocation;
+    const distance = this.distance(current.col, col) + this.distance(current.row, row);
+
+    // TODO: try use recursion for movement.
+    for (let delta = 0; delta < distance; delta++) {
+      callback(delta, row, col);
+    }
+    this.emptyLocation = current;
   }
 
   change(next: Location, current: Location) {
