@@ -1,6 +1,6 @@
 <div class="row" *ngFor="let row of board.tiles">
   <ng-container *ngFor="let tile of row">
-    <button [hidden]="0 === tile" md-fab (click)="tileClick(tile)">
+    <button [hidden]="hiddenTile === tile" md-fab (click)="tileClick(tile)">
       {{tile}}
     </button>
   </ng-container>

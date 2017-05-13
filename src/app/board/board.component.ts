@@ -8,11 +8,13 @@ import { SettingsService } from '../settings.service';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
+  hiddenTile: number;
 
   constructor(public board: BoardService, public settings: SettingsService) { }
 
   ngOnInit() {
     console.log(this.board.tiles);
+    this.hiddenTile = this.settings.boardSize ** 2;
   }
 
   tileClick(tile) {

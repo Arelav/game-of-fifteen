@@ -6,28 +6,43 @@ import { Direction } from './direction.enum';
 @Injectable()
 export class BoardService {
   private board: number[][];
-  private emptyLocation: Location = {col: 0, row: 0};
+  private reference: number[][];
+  private emptyLocation: Location;
 
   constructor(private settingsService: SettingsService) {
     const size = settingsService.boardSize;
+    this.emptyLocation = {col: size - 1, row: size - 1};
 
-    this.board = Array.from(new Array(size),
-      (x, i): number[] => Array.from(new Array(size),
-        (y, j): number => i * size + j));
 
-    this.mixBoard(this.board);
+    this.board = this.fill(size);
+
+    this.mixBoard(10, size);
   }
 
-  mixBoard(tiles): number[][] {
-    // TODO: Implement mix method;
-    return tiles;
+  fill(size) {
+    return Array.from(new Array(size),
+      (x, i): number[] => Array.from(new Array(size),
+        (y, j): number => i * size + j + 1));
+  }
+
+  mixBoard(difficulty, size) {
+    for (let i = 0; i < difficulty; i++) {
+      const rand = Math.floor(Math.random() * size);
+
+      // Randomize axis
+      if (Math.floor(Math.random() * 2) === 0) {
+        this.move(this.board[rand][this.emptyLocation.col]);
+      } else {
+        this.move(this.board[this.emptyLocation.row][rand]);
+      }
+    }
   }
 
   get tiles(): number[][] {
     return this.board;
   }
 
-  currentPosition(tile): Location {
+  currentPosition(tile: number): Location {
     let result: Location = {col: -1, row: -1};
     this.tiles.forEach((rowData, row) => {
       const col = rowData.indexOf(tile);
