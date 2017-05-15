@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { SettingsService } from '../settings.service';
 import { Location } from './location';
 import { Direction } from './direction.enum';
+import * as _ from 'lodash';
 
 @Injectable()
 export class BoardService {
   private board: number[][];
+  private reference: number[][];
   private emptyLocation: Location;
 
   constructor(private settingsService: SettingsService) {
@@ -13,8 +15,9 @@ export class BoardService {
     this.emptyLocation = {col: size - 1, row: size - 1};
 
     this.board = this.fill(size);
+    this.reference = _.cloneDeep(this.board);
 
-    this.mixBoard(10, size);
+    this.mixBoard(3, size);
   }
 
   private fill(size) {
@@ -127,6 +130,18 @@ export class BoardService {
       callback(delta, row, col);
     }
     this.emptyLocation = current;
+    // TODO: Change to class scope var
+    const size = this.settingsService.boardSize;
+    // Check only if right bottom tile is empty
+    if (this.emptyLocation.col === size -1 && this.emptyLocation.row === size - 1) {
+      console.log(this.checkSolution());
+    }
+  }
+
+  private checkSolution(): boolean {
+    let solved = false;
+    solved = _.isEqual(this.board, this.reference);
+    return solved;
   }
 
   private swap(next: Location, current: Location) {
