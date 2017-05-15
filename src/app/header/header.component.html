@@ -1,4 +1,17 @@
 <header>
-  <md-toolbar>{{title}}</md-toolbar>
+  <md-toolbar>
+    <h1>{{title}}</h1>
+    <md-toolbar-row>
+      <p>How many times to mix:</p>
+    </md-toolbar-row>
+    <md-toolbar-row>
+      <div>
+        <md-slider min="5" max="1000" #difficultySlider></md-slider>
+        {{difficultySlider.value}}
+      </div>
+      <button md-button>Start</button>
+
+    </md-toolbar-row>
+  </md-toolbar>
 </header>
 

@@ -1,7 +1,10 @@
-<div class="row" *ngFor="let row of board.tiles">
-  <ng-container *ngFor="let tile of row">
-    <button [hidden]="hiddenTile === tile" md-fab (click)="tileClick(tile)">
-      {{tile}}
-    </button>
-  </ng-container>
+<p>Hint: you can move few tiles on same time.</p>
+<div class="board">
+  <div class="row" *ngFor="let row of board.tiles">
+    <ng-container *ngFor="let tile of row">
+      <button [hidden]="hiddenTile === tile" md-fab (click)="tileClick(tile)">
+        {{tile}}
+      </button>
+    </ng-container>
+  </div>
 </div>

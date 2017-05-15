@@ -5,15 +5,26 @@ import { BoardComponent } from './board.component';
 import { BoardService } from './board.service';
 import { SettingsService } from '../settings.service';
 import { MoveService } from './move.service';
-import { MdButtonModule } from '@angular/material';
+import { MdButtonModule, MdDialogModule } from '@angular/material';
+import { WinDialogComponent } from './win-dialog/win-dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
     CommonModule,
+    BrowserAnimationsModule,
     MdButtonModule,
+    MdDialogModule,
   ],
   exports: [BoardComponent],
-  declarations: [TileComponent, BoardComponent],
+  declarations: [
+    TileComponent,
+    BoardComponent,
+    WinDialogComponent,
+  ],
+  entryComponents: [
+    WinDialogComponent,
+  ],
   providers: [
     SettingsService,
     BoardService,

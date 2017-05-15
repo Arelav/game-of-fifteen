@@ -15,6 +15,7 @@ export class BoardService {
     this.emptyLocation = {col: size - 1, row: size - 1};
 
     this.board = this.fill(size);
+    // Other option was iterate to check solution. I chose to compare two states.
     this.reference = _.cloneDeep(this.board);
 
     this.mixBoard(3, size);

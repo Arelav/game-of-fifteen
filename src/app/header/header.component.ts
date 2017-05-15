@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  title = '15 Game';
+  public difficulty = '200';
+  public title = '15 Game';
   constructor() { }
 
   ngOnInit() {
