@@ -170,9 +170,7 @@ export class BoardService {
   }
 
   private checkSolution(): boolean {
-    let solved = false;
-    solved = _.isEqual(this.board, this.reference);
-    return solved;
+    return _.isEqual(this.board, this.reference);
   }
 
   private swap(next: Location, current: Location) {
