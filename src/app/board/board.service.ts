@@ -3,22 +3,44 @@ import { SettingsService } from '../settings.service';
 import { Location } from './location';
 import { Direction } from './direction.enum';
 import * as _ from 'lodash';
+import { Subject } from 'rxjs/Subject';
+import { AppEvent } from './app-events.enum';
 
 @Injectable()
 export class BoardService {
   private board: number[][];
   private reference: number[][];
   private emptyLocation: Location;
+  private difficulty: number;
+
+  // TODO: Move streams to separate service
+  private appStateSource = new Subject<AppEvent>();
+  public appState$ = this.appStateSource.asObservable();
+
+  private difficultySource = new Subject<number>();
+  private difficulty$ = this.difficultySource.asObservable();
+
+  public sendEvent(e: AppEvent) {
+    this.appStateSource.next(e);
+  }
+
+  public changeDifficulty(difficulty: number) {
+    this.difficulty = difficulty;
+  }
 
   constructor(private settingsService: SettingsService) {
-    const size = settingsService.boardSize;
-    this.emptyLocation = {col: size - 1, row: size - 1};
-
-    this.board = this.fill(size);
-    // Other option was iterate to check solution. I chose to compare two states.
-    this.reference = _.cloneDeep(this.board);
-
-    this.mixBoard(3, size);
+    this.appState$.subscribe(e => {
+      console.log(e);
+      if (AppEvent[e] === 'start' || AppEvent[e] === 'restart') {
+        const size = settingsService.boardSize;
+        this.board = this.fill(size);
+        this.emptyLocation = {col: size - 1, row: size - 1};
+        // Other option was iterate to check solution. I chose to compare two states.
+        this.reference = _.cloneDeep(this.board);
+        console.log(this.difficulty);
+        this.mixBoard(this.difficulty, size);
+      }
+    });
   }
 
   private fill(size) {
@@ -28,16 +50,22 @@ export class BoardService {
   }
 
   private mixBoard(difficulty, size) {
-    for (let i = 0; i < difficulty; i++) {
-      const rand = Math.floor(Math.random() * size);
+    let counter = 0;
 
-      // Randomize axis
-      if (Math.floor(Math.random() * 2) === 0) {
-        this.move(this.board[rand][this.emptyLocation.col]);
-      } else {
-        this.move(this.board[this.emptyLocation.row][rand]);
+    // Randomize axis
+    const delay = setInterval(() => {
+      counter++;
+      if (counter > difficulty) {
+        clearInterval(delay);
       }
-    }
+      const rand = () => Math.floor(Math.random() * size);
+      // It can to fall on empty tile and move won't made. Refactor it.
+      if (Math.floor(Math.random() * 2) === 0) {
+        this.move(this.board[rand()][this.emptyLocation.col]);
+      } else {
+        this.move(this.board[this.emptyLocation.row][rand()]);
+      }
+    }, 100);
   }
 
   get tiles(): number[][] {
@@ -134,8 +162,10 @@ export class BoardService {
     // TODO: Change to class scope var
     const size = this.settingsService.boardSize;
     // Check only if right bottom tile is empty
-    if (this.emptyLocation.col === size -1 && this.emptyLocation.row === size - 1) {
-      console.log(this.checkSolution());
+    if (this.emptyLocation.col === size - 1 && this.emptyLocation.row === size - 1) {
+      if (this.checkSolution()) {
+        this.sendEvent(AppEvent.victory);
+      }
     }
   }
 

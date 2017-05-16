@@ -6,10 +6,10 @@
     </md-toolbar-row>
     <md-toolbar-row>
       <div>
-        <md-slider min="5" max="1000" #difficultySlider></md-slider>
+        <md-slider min="5" max="100" [value]="difficulty" #difficultySlider (change)="changeDifficulty($event)"></md-slider>
         {{difficultySlider.value}}
       </div>
-      <button md-button>Start</button>
+      <button md-button (click)="startStop()">{{startStopCaption}}</button>
 
     </md-toolbar-row>
   </md-toolbar>

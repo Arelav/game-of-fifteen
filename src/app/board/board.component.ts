@@ -3,6 +3,7 @@ import { BoardService } from './board.service';
 import { SettingsService } from '../settings.service';
 import { MdDialog } from '@angular/material';
 import { WinDialogComponent } from './win-dialog/win-dialog.component';
+import { AppEvent } from './app-events.enum';
 
 @Component({
   selector: 'app-board',
@@ -16,10 +17,14 @@ export class BoardComponent implements OnInit {
               public dialog: MdDialog) { }
 
   ngOnInit() {
-    console.log(this.board.tiles);
 
     // Let Angular to know what tile we need to hide inside template
     this.hiddenTile = this.settings.boardSize ** 2;
+    this.board.appState$.subscribe(e => {
+      if (AppEvent[e] === 'victory') {
+       this.showDialog();
+      }
+    });
   }
 
   tileClick(tile) {
